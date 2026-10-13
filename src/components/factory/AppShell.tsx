@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, CalendarClock, Warehouse, FlaskConical, Gauge, Wrench, Bot, Leaf, Pause, Play, RotateCcw, Atom, BellRing, Cpu, Search, Shield,
+  LayoutDashboard, CalendarClock, Warehouse, FlaskConical, Gauge, Wrench, Bot, Leaf, Pause, Play, RotateCcw, Atom, BellRing, Cpu, Search, Shield, AlertTriangle, Recycle,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu,
@@ -22,6 +22,8 @@ const NAV = [
   { title: "Flota de servicio", url: "/flota", icon: Bot },
   { title: "Calidad y sostenibilidad", url: "/calidad", icon: Leaf },
   { title: "Modelos VEX", url: "/modelos", icon: Cpu },
+  { title: "Predicción de averías", url: "/riesgos", icon: AlertTriangle },
+  { title: "Trazabilidad de piezas", url: "/trazabilidad", icon: Recycle },
   { title: "Buscador de sucesos", url: "/buscador", icon: Search },
   { title: "Defensa (restringido)", url: "/defensa", icon: Shield },
 ] as const;

@@ -20,6 +20,8 @@ import { Route as ModelosRouteImport } from './routes/modelos'
 import { Route as PlanificacionRouteImport } from './routes/planificacion'
 import { Route as PlantaRouteImport } from './routes/planta'
 import { Route as ProveedoresRouteImport } from './routes/proveedores'
+import { Route as RiesgosRouteImport } from './routes/riesgos'
+import { Route as TrazabilidadRouteImport } from './routes/trazabilidad'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +78,16 @@ const ProveedoresRoute = ProveedoresRouteImport.update({
   path: '/proveedores',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RiesgosRoute = RiesgosRouteImport.update({
+  id: '/riesgos',
+  path: '/riesgos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrazabilidadRoute = TrazabilidadRouteImport.update({
+  id: '/trazabilidad',
+  path: '/trazabilidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +101,8 @@ export interface FileRoutesByFullPath {
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
+  '/riesgos': typeof RiesgosRoute
+  '/trazabilidad': typeof TrazabilidadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +116,8 @@ export interface FileRoutesByTo {
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
+  '/riesgos': typeof RiesgosRoute
+  '/trazabilidad': typeof TrazabilidadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +132,8 @@ export interface FileRoutesById {
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
+  '/riesgos': typeof RiesgosRoute
+  '/trazabilidad': typeof TrazabilidadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +149,8 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/planta'
     | '/proveedores'
+    | '/riesgos'
+    | '/trazabilidad'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +164,8 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/planta'
     | '/proveedores'
+    | '/riesgos'
+    | '/trazabilidad'
   id:
     | '__root__'
     | '/'
@@ -157,6 +179,8 @@ export interface FileRouteTypes {
     | '/planificacion'
     | '/planta'
     | '/proveedores'
+    | '/riesgos'
+    | '/trazabilidad'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +195,8 @@ export interface RootRouteChildren {
   PlanificacionRoute: typeof PlanificacionRoute
   PlantaRoute: typeof PlantaRoute
   ProveedoresRoute: typeof ProveedoresRoute
+  RiesgosRoute: typeof RiesgosRoute
+  TrazabilidadRoute: typeof TrazabilidadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +278,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProveedoresRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/riesgos': {
+      id: '/riesgos'
+      path: '/riesgos'
+      fullPath: '/riesgos'
+      preLoaderRoute: typeof RiesgosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trazabilidad': {
+      id: '/trazabilidad'
+      path: '/trazabilidad'
+      fullPath: '/trazabilidad'
+      preLoaderRoute: typeof TrazabilidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,6 +307,8 @@ const rootRouteChildren: RootRouteChildren = {
   PlanificacionRoute: PlanificacionRoute,
   PlantaRoute: PlantaRoute,
   ProveedoresRoute: ProveedoresRoute,
+  RiesgosRoute: RiesgosRoute,
+  TrazabilidadRoute: TrazabilidadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
