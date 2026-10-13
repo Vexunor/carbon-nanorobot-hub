@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, CalendarClock, Warehouse, FlaskConical, Gauge, Wrench, Bot, Leaf, Pause, Play, RotateCcw, Atom, BellRing,
+  LayoutDashboard, CalendarClock, Warehouse, FlaskConical, Gauge, Wrench, Bot, Leaf, Pause, Play, RotateCcw, Atom, BellRing, Cpu, Search, Shield,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu,
@@ -21,6 +21,9 @@ const NAV = [
   { title: "Mantenimiento y avisos", url: "/mantenimiento", icon: Wrench },
   { title: "Flota de servicio", url: "/flota", icon: Bot },
   { title: "Calidad y sostenibilidad", url: "/calidad", icon: Leaf },
+  { title: "Modelos VEX", url: "/modelos", icon: Cpu },
+  { title: "Buscador de sucesos", url: "/buscador", icon: Search },
+  { title: "Defensa (restringido)", url: "/defensa", icon: Shield },
 ] as const;
 
 function AppSidebar() {

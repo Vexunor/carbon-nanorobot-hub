@@ -11,9 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlmacenRouteImport } from './routes/almacen'
+import { Route as BuscadorRouteImport } from './routes/buscador'
 import { Route as CalidadRouteImport } from './routes/calidad'
+import { Route as DefensaRouteImport } from './routes/defensa'
 import { Route as FlotaRouteImport } from './routes/flota'
 import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
+import { Route as ModelosRouteImport } from './routes/modelos'
 import { Route as PlanificacionRouteImport } from './routes/planificacion'
 import { Route as PlantaRouteImport } from './routes/planta'
 import { Route as ProveedoresRouteImport } from './routes/proveedores'
@@ -28,9 +31,19 @@ const AlmacenRoute = AlmacenRouteImport.update({
   path: '/almacen',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuscadorRoute = BuscadorRouteImport.update({
+  id: '/buscador',
+  path: '/buscador',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CalidadRoute = CalidadRouteImport.update({
   id: '/calidad',
   path: '/calidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DefensaRoute = DefensaRouteImport.update({
+  id: '/defensa',
+  path: '/defensa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FlotaRoute = FlotaRouteImport.update({
@@ -41,6 +54,11 @@ const FlotaRoute = FlotaRouteImport.update({
 const MantenimientoRoute = MantenimientoRouteImport.update({
   id: '/mantenimiento',
   path: '/mantenimiento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModelosRoute = ModelosRouteImport.update({
+  id: '/modelos',
+  path: '/modelos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanificacionRoute = PlanificacionRouteImport.update({
@@ -62,9 +80,12 @@ const ProveedoresRoute = ProveedoresRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/almacen': typeof AlmacenRoute
+  '/buscador': typeof BuscadorRoute
   '/calidad': typeof CalidadRoute
+  '/defensa': typeof DefensaRoute
   '/flota': typeof FlotaRoute
   '/mantenimiento': typeof MantenimientoRoute
+  '/modelos': typeof ModelosRoute
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
@@ -72,9 +93,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/almacen': typeof AlmacenRoute
+  '/buscador': typeof BuscadorRoute
   '/calidad': typeof CalidadRoute
+  '/defensa': typeof DefensaRoute
   '/flota': typeof FlotaRoute
   '/mantenimiento': typeof MantenimientoRoute
+  '/modelos': typeof ModelosRoute
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
@@ -83,9 +107,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/almacen': typeof AlmacenRoute
+  '/buscador': typeof BuscadorRoute
   '/calidad': typeof CalidadRoute
+  '/defensa': typeof DefensaRoute
   '/flota': typeof FlotaRoute
   '/mantenimiento': typeof MantenimientoRoute
+  '/modelos': typeof ModelosRoute
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
@@ -95,9 +122,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/almacen'
+    | '/buscador'
     | '/calidad'
+    | '/defensa'
     | '/flota'
     | '/mantenimiento'
+    | '/modelos'
     | '/planificacion'
     | '/planta'
     | '/proveedores'
@@ -105,9 +135,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/almacen'
+    | '/buscador'
     | '/calidad'
+    | '/defensa'
     | '/flota'
     | '/mantenimiento'
+    | '/modelos'
     | '/planificacion'
     | '/planta'
     | '/proveedores'
@@ -115,9 +148,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/almacen'
+    | '/buscador'
     | '/calidad'
+    | '/defensa'
     | '/flota'
     | '/mantenimiento'
+    | '/modelos'
     | '/planificacion'
     | '/planta'
     | '/proveedores'
@@ -126,9 +162,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AlmacenRoute: typeof AlmacenRoute
+  BuscadorRoute: typeof BuscadorRoute
   CalidadRoute: typeof CalidadRoute
+  DefensaRoute: typeof DefensaRoute
   FlotaRoute: typeof FlotaRoute
   MantenimientoRoute: typeof MantenimientoRoute
+  ModelosRoute: typeof ModelosRoute
   PlanificacionRoute: typeof PlanificacionRoute
   PlantaRoute: typeof PlantaRoute
   ProveedoresRoute: typeof ProveedoresRoute
@@ -150,11 +189,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlmacenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/buscador': {
+      id: '/buscador'
+      path: '/buscador'
+      fullPath: '/buscador'
+      preLoaderRoute: typeof BuscadorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/calidad': {
       id: '/calidad'
       path: '/calidad'
       fullPath: '/calidad'
       preLoaderRoute: typeof CalidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/defensa': {
+      id: '/defensa'
+      path: '/defensa'
+      fullPath: '/defensa'
+      preLoaderRoute: typeof DefensaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/flota': {
@@ -169,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/mantenimiento'
       fullPath: '/mantenimiento'
       preLoaderRoute: typeof MantenimientoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modelos': {
+      id: '/modelos'
+      path: '/modelos'
+      fullPath: '/modelos'
+      preLoaderRoute: typeof ModelosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planificacion': {
@@ -198,9 +258,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlmacenRoute: AlmacenRoute,
+  BuscadorRoute: BuscadorRoute,
   CalidadRoute: CalidadRoute,
+  DefensaRoute: DefensaRoute,
   FlotaRoute: FlotaRoute,
   MantenimientoRoute: MantenimientoRoute,
+  ModelosRoute: ModelosRoute,
   PlanificacionRoute: PlanificacionRoute,
   PlantaRoute: PlantaRoute,
   ProveedoresRoute: ProveedoresRoute,

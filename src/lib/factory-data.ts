@@ -59,10 +59,25 @@ export const MATERIALS: Material[] = [
 ];
 
 export type RobotModel = { id: string; name: string; desc: string; share: number };
+// Solo se fabrican los 3 últimos modelos; VEX-7 recibe el 75% del límite diario.
 export const MODELS: RobotModel[] = [
-  { id: "atlas", name: "NX-Atlas", desc: "Robot industrial de carga pesada", share: 0.4 },
-  { id: "medic", name: "NX-Medic", desc: "Asistente quirúrgico de precisión", share: 0.25 },
-  { id: "scout", name: "NX-Scout", desc: "Explorador autónomo ligero", share: 0.35 },
+  { id: "v5", name: "VEX-5", desc: "Humanoide industrial de carga", share: 0.1 },
+  { id: "v6", name: "VEX-6", desc: "Humanoide ágil con manos diestras", share: 0.15 },
+  { id: "v7", name: "VEX-7", desc: "Humanoide de nanocélulas de carbono", share: 0.75 },
+];
+
+export type VexGen = {
+  id: string; name: string; year: number; type: string; inspired: string; desc: string;
+  built: number; status: "En producción" | "Desmontaje y reciclaje"; share: number; reuse: number; specs: string[];
+};
+export const VEX_GENERATIONS: VexGen[] = [
+  { id: "vex-1", name: "VEX-1", year: 2015, type: "Brazo industrial fijo", inspired: "Brazos de soldadura de las primeras líneas chinas (Siasun, Estun)", desc: "6 ejes, carcasa de acero, sin visión.", built: 48200, status: "Desmontaje y reciclaje", share: 0, reuse: 62, specs: ["6 grados de libertad", "Carga 20 kg", "Control por PLC"] },
+  { id: "vex-2", name: "VEX-2", year: 2018, type: "Robot de servicio con ruedas", inspired: "Robots de recepción y reparto (UBTech Cruzr, Pudu)", desc: "Pantalla facial, navegación por LiDAR en interiores.", built: 63500, status: "Desmontaje y reciclaje", share: 0, reuse: 71, specs: ["Base diferencial", "LiDAR 2D", "Autonomía 8 h"] },
+  { id: "vex-3", name: "VEX-3", year: 2020, type: "Cuadrúpedo", inspired: "Perros robot (Unitree Go, DEEP Robotics)", desc: "4 patas con 12 motores, terreno irregular.", built: 91000, status: "Desmontaje y reciclaje", share: 0, reuse: 78, specs: ["12 servoarticulaciones", "3,5 m/s", "Cámaras de profundidad"] },
+  { id: "vex-4", name: "VEX-4", year: 2022, type: "Humanoide bípedo de 1.ª gen.", inspired: "Primeros humanoides (UBTech Walker)", desc: "Articulaciones expuestas, marcha lenta.", built: 120400, status: "Desmontaje y reciclaje", share: 0, reuse: 83, specs: ["36 articulaciones", "Marcha 1,2 m/s", "Chip NX-Core v1"] },
+  { id: "vex-5", name: "VEX-5", year: 2024, type: "Humanoide industrial", inspired: "Unitree H1, Fourier GR-1", desc: "Torso compacto, carga pesada en almacén.", built: 182000, status: "En producción", share: 0.1, reuse: 88, specs: ["Carga 30 kg", "Batería 2,4 kWh", "Visión 360°"] },
+  { id: "vex-6", name: "VEX-6", year: 2025, type: "Humanoide ágil", inspired: "Unitree G1, AgiBot", desc: "Manos diestras de 22 grados y fibra de carbono.", built: 214000, status: "En producción", share: 0.15, reuse: 92, specs: ["Manos 22 GDL", "Fibra de carbono", "Batería 3,6 kWh"] },
+  { id: "vex-7", name: "VEX-7", year: 2026, type: "Humanoide de nanocélulas", inspired: "Evolución de los humanoides chinos actuales (Unitree, UBTech, Xpeng Iron)", desc: "Chasis de nanocélulas de carbono sintético autorreparable y firmware cuántico.", built: 365000, status: "En producción", share: 0.75, reuse: 97, specs: ["Nanocélulas CVD-9N", "Batería 4,8 kWh estado sólido", "24 nano-actuadores", "Cifrado cuántico"] },
 ];
 
 export const SHIFTS = [
