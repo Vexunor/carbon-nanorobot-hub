@@ -88,7 +88,7 @@ function addAlert(s: S, a: Omit<Alert, "id" | "created" | "status">) {
 function dispatch(s: S) {
   const pending = s.alerts.filter((a) => a.status === "pendiente").sort((a, b) => PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority]);
   for (const a of pending) {
-    const bot = s.fleet.filter((f) => f.type === a.type && f.status === "disponible" && f.battery > 20).sort((x, y) => y.battery - x.battery)[0];
+    const bot = s.fleet.filter((f) => f.type === a.type && f.status === "disponible" && f.battery > (a.type === "Mantenimiento" ? 10 : 20)).sort((x, y) => y.battery - x.battery)[0];
     if (!bot) continue;
     bot.status = "trabajando"; bot.alertId = a.id; bot.zone = a.zone;
     a.status = "en curso"; a.robotId = bot.id; a.started = s.minute;
@@ -129,9 +129,9 @@ function simulateMinute(s: S) {
     m.temp = +(sp.tempNominal + (R() - 0.5) * span * 0.3 + wear * span * 1.2).toFixed(1);
     m.pressure = +(sp.pressureNominal * (1 + (R() - 0.5) * 0.04 + wear * 0.08)).toFixed(2);
     m.vibration = +(0.3 + wear * 2.2 + R() * 0.2).toFixed(2);
-    if (m.health < 55 && m.status === "operativa") {
+    if (m.health < 72 && m.status === "operativa") {
       m.status = "advertencia";
-      addAlert(s, { type: "Mantenimiento", priority: "media", title: `Mantenimiento predictivo ${m.id}`, detail: `Gemelo digital prevé desgaste (salud ${m.health.toFixed(0)}%) en ${sp.name}`, zone: sp.zone, machineId: m.id, duration: 35 });
+      addAlert(s, { type: "Mantenimiento", priority: "alta", title: `Mantenimiento predictivo ${m.id}`, detail: `Gemelo digital prevé desgaste (salud ${m.health.toFixed(0)}%) en ${sp.name}`, zone: sp.zone, machineId: m.id, duration: 35 });
       pushLog(s, "warn", `${m.id}: salud ${m.health.toFixed(0)}% · mantenimiento programado`);
     }
     if (R() < 0.00045 + wear * 0.0018) {
@@ -159,6 +159,8 @@ function simulateMinute(s: S) {
       addAlert(s, { type: "Distribución", priority: "crítica", title: `Reponer ${mat(short.id).name}`, detail: `Stock en línea agotado. Traer desde almacén inerte.`, zone: "Almacén inerte", duration: 10 });
     }
   }
+  // Recuperación: si vamos por detrás del plan, la línea acelera hasta un 15%
+  if (s.produced < (DAILY_TARGET * s.minute) / 1440) rate *= 1.15;
   if (s.produced >= DAILY_TARGET && s.minute > 0) rate *= 0.15;
   s.produced += rate;
   s.hourly[Math.floor(s.minute / 60)] += rate;
