@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlmacenRouteImport } from './routes/almacen'
 import { Route as PlanificacionRouteImport } from './routes/planificacion'
+import { Route as ProveedoresRouteImport } from './routes/proveedores'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlmacenRoute = AlmacenRouteImport.update({
+  id: '/almacen',
+  path: '/almacen',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanificacionRoute = PlanificacionRouteImport.update({
@@ -22,31 +29,44 @@ const PlanificacionRoute = PlanificacionRouteImport.update({
   path: '/planificacion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProveedoresRoute = ProveedoresRouteImport.update({
+  id: '/proveedores',
+  path: '/proveedores',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/almacen': typeof AlmacenRoute
   '/planificacion': typeof PlanificacionRoute
+  '/proveedores': typeof ProveedoresRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/almacen': typeof AlmacenRoute
   '/planificacion': typeof PlanificacionRoute
+  '/proveedores': typeof ProveedoresRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/almacen': typeof AlmacenRoute
   '/planificacion': typeof PlanificacionRoute
+  '/proveedores': typeof ProveedoresRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/planificacion'
+  fullPaths: '/' | '/almacen' | '/planificacion' | '/proveedores'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/planificacion'
-  id: '__root__' | '/' | '/planificacion'
+  to: '/' | '/almacen' | '/planificacion' | '/proveedores'
+  id: '__root__' | '/' | '/almacen' | '/planificacion' | '/proveedores'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlmacenRoute: typeof AlmacenRoute
   PlanificacionRoute: typeof PlanificacionRoute
+  ProveedoresRoute: typeof ProveedoresRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/almacen': {
+      id: '/almacen'
+      path: '/almacen'
+      fullPath: '/almacen'
+      preLoaderRoute: typeof AlmacenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/planificacion': {
       id: '/planificacion'
       path: '/planificacion'
@@ -65,12 +92,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanificacionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/proveedores': {
+      id: '/proveedores'
+      path: '/proveedores'
+      fullPath: '/proveedores'
+      preLoaderRoute: typeof ProveedoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlmacenRoute: AlmacenRoute,
   PlanificacionRoute: PlanificacionRoute,
+  ProveedoresRoute: ProveedoresRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
