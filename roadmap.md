@@ -8,4 +8,4 @@
 - [x] Predicción de averías
 - [x] Trazabilidad de piezas
 - [x] Enlace GitHub y URL publicada en documentación
-- [ ] Completar documentación técnica con los siete apartados obligatorios y capturas integradas
+- [x] Completar documentación técnica con los siete apartados obligatorios y capturas integradas
