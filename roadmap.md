@@ -7,4 +7,5 @@
 - [x] Evitar pantallas en blanco (página de error/no encontrado)
 - [x] Predicción de averías
 - [x] Trazabilidad de piezas
-- [ ] Enlace GitHub y URL publicada en documentación (pendiente del usuario)
+- [x] Enlace GitHub y URL publicada en documentación
+- [x] Completar documentación técnica con los siete apartados obligatorios y capturas integradas
