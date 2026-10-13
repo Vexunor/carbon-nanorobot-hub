@@ -14,6 +14,7 @@ import { Route as AlmacenRouteImport } from './routes/almacen'
 import { Route as CalidadRouteImport } from './routes/calidad'
 import { Route as FlotaRouteImport } from './routes/flota'
 import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
+import { Route as ModelosRouteImport } from './routes/modelos'
 import { Route as PlanificacionRouteImport } from './routes/planificacion'
 import { Route as PlantaRouteImport } from './routes/planta'
 import { Route as ProveedoresRouteImport } from './routes/proveedores'
@@ -43,6 +44,11 @@ const MantenimientoRoute = MantenimientoRouteImport.update({
   path: '/mantenimiento',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModelosRoute = ModelosRouteImport.update({
+  id: '/modelos',
+  path: '/modelos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlanificacionRoute = PlanificacionRouteImport.update({
   id: '/planificacion',
   path: '/planificacion',
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/calidad': typeof CalidadRoute
   '/flota': typeof FlotaRoute
   '/mantenimiento': typeof MantenimientoRoute
+  '/modelos': typeof ModelosRoute
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/calidad': typeof CalidadRoute
   '/flota': typeof FlotaRoute
   '/mantenimiento': typeof MantenimientoRoute
+  '/modelos': typeof ModelosRoute
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/calidad': typeof CalidadRoute
   '/flota': typeof FlotaRoute
   '/mantenimiento': typeof MantenimientoRoute
+  '/modelos': typeof ModelosRoute
   '/planificacion': typeof PlanificacionRoute
   '/planta': typeof PlantaRoute
   '/proveedores': typeof ProveedoresRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/calidad'
     | '/flota'
     | '/mantenimiento'
+    | '/modelos'
     | '/planificacion'
     | '/planta'
     | '/proveedores'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/calidad'
     | '/flota'
     | '/mantenimiento'
+    | '/modelos'
     | '/planificacion'
     | '/planta'
     | '/proveedores'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/calidad'
     | '/flota'
     | '/mantenimiento'
+    | '/modelos'
     | '/planificacion'
     | '/planta'
     | '/proveedores'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   CalidadRoute: typeof CalidadRoute
   FlotaRoute: typeof FlotaRoute
   MantenimientoRoute: typeof MantenimientoRoute
+  ModelosRoute: typeof ModelosRoute
   PlanificacionRoute: typeof PlanificacionRoute
   PlantaRoute: typeof PlantaRoute
   ProveedoresRoute: typeof ProveedoresRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MantenimientoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modelos': {
+      id: '/modelos'
+      path: '/modelos'
+      fullPath: '/modelos'
+      preLoaderRoute: typeof ModelosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/planificacion': {
       id: '/planificacion'
       path: '/planificacion'
@@ -201,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalidadRoute: CalidadRoute,
   FlotaRoute: FlotaRoute,
   MantenimientoRoute: MantenimientoRoute,
+  ModelosRoute: ModelosRoute,
   PlanificacionRoute: PlanificacionRoute,
   PlantaRoute: PlantaRoute,
   ProveedoresRoute: ProveedoresRoute,
