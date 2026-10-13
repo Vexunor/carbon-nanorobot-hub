@@ -31,7 +31,7 @@ function Risks() {
   }).filter((r) => phase === "all" || r.sp.phase === phase).sort((a, b) => b.risk - a.risk);
   const high = rows.filter((r) => r.risk >= 50).length;
   const avg = rows.length ? rows.reduce((a, r) => a + r.risk, 0) / rows.length : 0;
-  const tone = (r: number) => (r >= 70 ? "danger" : r >= 40 ? "warning" : "success") as const;
+  const tone = (r: number): "danger" | "warning" | "success" => (r >= 70 ? "danger" : r >= 40 ? "warning" : "success");
 
   return (
     <div>
