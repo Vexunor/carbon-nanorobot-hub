@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Factory simulation lives in src/lib/factory-store.ts (zustand, persisted to localStorage, skipHydration + deterministic seed) with static catalogs in src/lib/factory-data.ts; keeps SSR/client consistent and data local without a backend.
