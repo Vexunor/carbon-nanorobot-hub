@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
 
 function Dashboard() {
   const s = useFactory();
-  const produced = Math.floor(s.produced);
+  const produced = Math.round(s.produced);
   const expected = (DAILY_TARGET * s.minute) / 1440;
   const onPlan = expected ? (s.produced / expected) * 100 : 100;
   const ops = s.machines.filter((m) => m.status === "operativa" || m.status === "advertencia").length;

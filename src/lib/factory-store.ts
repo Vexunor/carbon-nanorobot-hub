@@ -112,7 +112,7 @@ function finishAlert(s: S, a: Alert) {
 function simulateMinute(s: S) {
   s.minute++;
   if (s.minute >= 1440) {
-    pushLog(s, "ok", `Día ${s.day} cerrado con ${Math.floor(s.produced)} robots`);
+    pushLog(s, "ok", `Día ${s.day} cerrado con ${Math.round(s.produced)} robots`);
     s.minute = 0; s.day++; s.produced = 0; s.defects = 0; s.inspected = 0; s.hourly = Array(24).fill(0);
     s.materials.forEach((m) => { const left = m.received - m.consumed; m.received = Math.max(0, left); m.consumed = 0; m.deliveries = 0; });
   }
@@ -131,15 +131,15 @@ function simulateMinute(s: S) {
     m.vibration = +(0.3 + wear * 2.2 + R() * 0.2).toFixed(2);
     if (m.health < 72 && m.status === "operativa") {
       m.status = "advertencia";
-      addAlert(s, { type: "Mantenimiento", priority: "alta", title: `Mantenimiento predictivo ${m.id}`, detail: `Gemelo digital prevé desgaste (salud ${m.health.toFixed(0)}%) en ${sp.name}`, zone: sp.zone, machineId: m.id, duration: 35 });
+      addAlert(s, { type: "Mantenimiento", priority: "alta", title: `Mantenimiento predictivo ${m.id}`, detail: `Gemelo digital prevé desgaste (salud ${m.health.toFixed(0)}%) en ${sp.name}`, zone: sp.zone, machineId: m.id, duration: 18 });
       pushLog(s, "warn", `${m.id}: salud ${m.health.toFixed(0)}% · mantenimiento programado`);
     }
-    if (R() < 0.00045 + wear * 0.0018) {
+    if (R() < 0.0003 + wear * 0.0012) {
       m.status = "fallo";
       const causes = ["micro-fisura detectada en cabezal", "sobretemperatura en núcleo", "desalineación de emisor láser", "obstrucción en nano-inyector", "pérdida de vacío"];
       const c = causes[Math.floor(R() * causes.length)];
       s.alerts = s.alerts.filter((a) => !(a.machineId === m.id && a.status === "pendiente"));
-      addAlert(s, { type: "Mantenimiento", priority: "crítica", title: `FALLO ${m.id}: ${c}`, detail: `${sp.name} detenida en ${sp.zone}. Línea de ${sp.phase} con capacidad reducida.`, zone: sp.zone, machineId: m.id, duration: 50 });
+      addAlert(s, { type: "Mantenimiento", priority: "crítica", title: `FALLO ${m.id}: ${c}`, detail: `${sp.name} detenida en ${sp.zone}. Línea de ${sp.phase} con capacidad reducida.`, zone: sp.zone, machineId: m.id, duration: 25 });
       pushLog(s, "error", `Fallo en ${m.id}: ${c}`);
     }
   }
@@ -149,19 +149,25 @@ function simulateMinute(s: S) {
     const ms = s.machines.filter((m) => spec(m.id).phase === p);
     return ms.reduce((a, m) => a + (m.status === "operativa" || m.status === "advertencia" ? 1 : 0), 0) / ms.length;
   };
-  const cap = Math.min(...PHASES.map((p) => Math.min(1, phaseCap(p.name) * 1.25)));
+  const cap = Math.min(...PHASES.map((p) => Math.min(1, phaseCap(p.name) * 1.6)));
   const short = s.materials.find((ms) => ms.received - ms.consumed < mat(ms.id).perRobot * 2);
-  let rate = (DAILY_TARGET / 1440) * 1.06 * cap * (0.94 + R() * 0.12);
+  // Ritmo base gradual: el plan reparte los 1000 robots a lo largo de las 24 h
+  let rate = (DAILY_TARGET / 1440) * cap * (0.97 + R() * 0.06);
   if (short) {
-    rate = 0; s.stalls++;
+    // Reserva de seguridad en línea: la producción sigue al 60% mientras llega la reposición urgente
+    rate *= 0.6; s.stalls++;
     if (s.stalls % 30 === 1) {
-      pushLog(s, "error", `Línea detenida: falta ${mat(short.id).name}`);
-      addAlert(s, { type: "Distribución", priority: "crítica", title: `Reponer ${mat(short.id).name}`, detail: `Stock en línea agotado. Traer desde almacén inerte.`, zone: "Almacén inerte", duration: 10 });
+      pushLog(s, "warn", `Reserva de seguridad activada: reponiendo ${mat(short.id).name}`);
+      addAlert(s, { type: "Distribución", priority: "crítica", title: `Reponer ${mat(short.id).name}`, detail: `Stock en línea bajo. Traer desde almacén inerte (reserva de seguridad activa).`, zone: "Almacén inerte", duration: 5 });
     }
   }
-  // Recuperación: si vamos por detrás del plan, la línea acelera hasta un 15%
-  if (s.produced < (DAILY_TARGET * s.minute) / 1440) rate *= 1.15;
-  if (s.produced >= DAILY_TARGET && s.minute > 0) rate *= 0.15;
+  // Control en lazo cerrado: si vamos por detrás del plan se activan recursos extra (líneas de refuerzo)
+  const expected = (DAILY_TARGET * s.minute) / 1440;
+  const deficit = expected - s.produced;
+  if (deficit > 0) rate += Math.min(deficit / 45, (DAILY_TARGET / 1440) * 0.9);
+  else if (deficit < -5) rate *= 0.85;
+  // No se supera el objetivo diario
+  rate = Math.max(0, Math.min(rate, DAILY_TARGET - s.produced));
   s.produced += rate;
   s.hourly[Math.floor(s.minute / 60)] += rate;
   s.materials.forEach((ms) => (ms.consumed += rate * mat(ms.id).perRobot));
@@ -175,7 +181,7 @@ function simulateMinute(s: S) {
   // Logística: pedidos y envíos
   for (const ms of s.materials) {
     const m = mat(ms.id);
-    const target = m.perRobot * DAILY_TARGET * Math.min(1.05, (s.minute + supl0(m.supplierId) + 90) / 1440);
+    const target = m.perRobot * DAILY_TARGET * Math.min(1.15, (s.minute + supl0(m.supplierId) + 90) / 1440);
     if (ms.received + ms.inTransit < target) {
       const supl = sup(m.supplierId);
       s.shipments.push({ id: s.nextId++, materialId: m.id, qty: m.batch, progress: 0, travel: supl.transit * (0.85 + R() * 0.3) });
