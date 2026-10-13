@@ -95,7 +95,7 @@ function WarehousePage() {
             {MATERIALS.map((m, i) => {
               const ms = s.materials.find((x) => x.id === m.id)!;
               const stock = Math.max(0, ms.received - ms.consumed);
-              const ratio = Math.min(1, stock / (m.perRobot * 300));
+              const ratio = Math.min(1, stock / (m.perRobot * 700));
               const col = i % 5, row = Math.floor(i / 5);
               const x = 455 + col * 42, y = 50 + row * 190;
               return (

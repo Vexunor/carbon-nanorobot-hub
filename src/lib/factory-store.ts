@@ -71,6 +71,7 @@ const PRIORITY_RANK: Record<Priority, number> = { crítica: 0, alta: 1, media: 2
 const spec = (id: string) => MACHINE_SPECS.find((m) => m.id === id)!;
 const mat = (id: string) => MATERIALS.find((m) => m.id === id)!;
 const sup = (id: string) => SUPPLIERS.find((s) => s.id === id)!;
+const supl0 = (id: string) => sup(id).transit;
 export const fmtTime = (m: number) => `${String(Math.floor((m % 1440) / 60)).padStart(2, "0")}:${String(Math.floor(m % 60)).padStart(2, "0")}`;
 export const currentShift = (m: number) => SHIFTS.find((s) => m >= s.from && m < s.to) ?? SHIFTS[0];
 
@@ -172,7 +173,7 @@ function simulateMinute(s: S) {
   // Logística: pedidos y envíos
   for (const ms of s.materials) {
     const m = mat(ms.id);
-    const target = m.perRobot * DAILY_TARGET * Math.min(1.05, (s.minute + 240) / 1440);
+    const target = m.perRobot * DAILY_TARGET * Math.min(1.05, (s.minute + supl0(m.supplierId) + 90) / 1440);
     if (ms.received + ms.inTransit < target) {
       const supl = sup(m.supplierId);
       s.shipments.push({ id: s.nextId++, materialId: m.id, qty: m.batch, progress: 0, travel: supl.transit * (0.85 + R() * 0.3) });
