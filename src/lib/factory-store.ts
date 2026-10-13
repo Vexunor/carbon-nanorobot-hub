@@ -81,7 +81,7 @@ function pushLog(s: S, kind: LogEntry["kind"], msg: string) {
 }
 function addAlert(s: S, a: Omit<Alert, "id" | "created" | "status">) {
   if (a.machineId && s.alerts.some((x) => x.machineId === a.machineId && x.status !== "resuelta")) return;
-  s.alerts = [{ ...a, id: s.nextId++, created: s.minute, status: "pendiente" }, ...s.alerts].slice(0, 150);
+  s.alerts = [{ ...a, id: s.nextId++, created: s.minute, status: "pendiente" as AlertStatus }, ...s.alerts].slice(0, 150);
 }
 
 function dispatch(s: S) {
