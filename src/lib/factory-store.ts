@@ -112,7 +112,7 @@ function finishAlert(s: S, a: Alert) {
 function simulateMinute(s: S) {
   s.minute++;
   if (s.minute >= 1440) {
-    pushLog(s, "ok", `Día ${s.day} cerrado con ${Math.floor(s.produced)} robots`);
+    pushLog(s, "ok", `Día ${s.day} cerrado con ${Math.round(s.produced)} robots`);
     s.minute = 0; s.day++; s.produced = 0; s.defects = 0; s.inspected = 0; s.hourly = Array(24).fill(0);
     s.materials.forEach((m) => { const left = m.received - m.consumed; m.received = Math.max(0, left); m.consumed = 0; m.deliveries = 0; });
   }
